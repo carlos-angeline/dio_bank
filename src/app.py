@@ -1,13 +1,31 @@
 import os
 
-from flask import Flask
+import click
+from flask import Flask, current_app
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import DeclarativeBase
+
+
+class Base(DeclarativeBase):
+    pass
+
+
+db = SQLAlchemy(model_class=Base)
+
+
+@click.command("init-db")
+def init_db_command():
+    global db
+    with current_app.app_context():
+        db.create_all()
+    click.echo("Initialized the database.")
 
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY="dev",
-        DATABASE=os.path.join("diobank.sqlite"),
+        SQLALCHEMY_DATABASE_URI="sqlite:///dio_bank.sqlite",
     )
 
     if test_config is None:
@@ -17,10 +35,10 @@ def create_app(test_config=None):
 
         app.config.from_mapping(test_config)
 
+    # Register CLI commands
+    app.cli.add_command(init_db_command)
 
-
-    from . import db
-
+    # initialize extentions
     db.init_app(app)
 
     return app

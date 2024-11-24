@@ -9,6 +9,17 @@ def _create_user():
     user = User(username=data['username'])
     db.session.add(user)
     db.session.commit()
+    
+def _list_users():
+    query = db.select(User)
+    users = db.session.execute(query).scalars()
+    return [
+		{
+            "id": result.id,
+            "username": result.username,
+		}
+  for result in users
+	]
 
 @app.route('/', methods=['GET', 'POST'])
 def handle_user():
@@ -16,6 +27,6 @@ def handle_user():
         _create_user()
         return {'message': 'User Created!'}, HTTPStatus.CREATED
     else:
-        return {'users': []} 
+        return {'users': _list_users()} 
     
     

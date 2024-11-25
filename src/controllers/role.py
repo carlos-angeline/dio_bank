@@ -1,6 +1,5 @@
 from http import HTTPStatus
 from flask import Blueprint, request
-from sqlalchemy import inspect
 from src.app import Role, db
 
 app = Blueprint('role', __name__, url_prefix='/roles')

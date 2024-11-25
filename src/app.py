@@ -19,6 +19,8 @@ db = SQLAlchemy(model_class=Base)
 migrate = Migrate()
 jwt = JWTManager()
 
+
+
 #maper roles
 class Role(db.Model):
     id: Mapped[int] = mapped_column(sa.Integer, primary_key=True)
@@ -27,7 +29,6 @@ class Role(db.Model):
     
     def __repr__(self) -> str:
         return f"Role(id={self.id!r}, name={self.name!r})"
-
 
 class User(db.Model):
     id: Mapped[int] = mapped_column(sa.Integer, primary_key=True)
@@ -65,7 +66,7 @@ def create_app(test_config=None):
     app.config.from_mapping(
         SECRET_KEY="dev",
         SQLALCHEMY_DATABASE_URI="sqlite:///blog.sqlite",
-        JWT_SECRET_KEY="super-secret"
+        JWT_SECRET_KEY="super-secret",
     )
 
     if test_config is None:

@@ -14,6 +14,10 @@ flask-migrate = "*"
 flask-jwt-extended = "*"
 pytest = "*"
 
+[tool.poetry.group.dev.dependencies]
+pytest = "*"
+pytest-mock = "^3.14.0"
+
 [tool.pytest.ini_options]
 addopts = "-ra -vvv"
 testpaths = ["tests"]

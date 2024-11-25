@@ -12,7 +12,11 @@ flask-sqlalchemy = "*"
 black = "^24.10.0"
 flask-migrate = "*"
 flask-jwt-extended = "*"
+pytest = "*"
 
+[tool.pytest.ini_options]
+addopts = "-ra -vvv"
+testpaths = ["tests"]
 
 [build-system]
 requires = ["poetry-core"]
